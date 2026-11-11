@@ -58,6 +58,8 @@ a { color: inherit; }
 .role .wrap { padding-block: 18px; display: grid; gap: 2px; }
 .role strong { font-family: var(--display); font-weight: 750; font-stretch: 110%; font-size: 1.05rem; letter-spacing: .01em; }
 .role span { color: #B7C4CB; font-size: .92rem; }
+.role .since { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid #2E3843; color: #B7C4CB; font-size: .92rem; font-variant-numeric: tabular-nums; }
+.role .since b { color: #EEF2F4; font-weight: 600; }
 
 /* Actions */
 .actions { padding-block: 24px 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -131,6 +133,7 @@ footer .wm { display: block; width: 130px; aspect-ratio: 376 / 139; margin-botto
   <div class="wrap">
     <strong>Responsable del Dpto. I+D+TT</strong>
     <span>Investigación, Desarrollo y Transformación Tecnológica · Gesa Mediación</span>
+    <p class="since"><b id="antiguedad">14 años y 5 meses</b> en Gesa · desde junio de 2012</p>
   </div>
 </div>
 
@@ -219,6 +222,18 @@ footer .wm { display: block; width: 130px; aspect-ratio: 376 / 139; margin-botto
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
+(function () {
+  // Antigüedad en Gesa desde junio de 2012, calculada con la fecha de quien abre la página
+  try {
+    var now = new Date(), months = (now.getFullYear() - 2012) * 12 + (now.getMonth() - 5);
+    if (months >= 0) {
+      var y = Math.floor(months / 12), m = months % 12, parts = [];
+      if (y) parts.push(y + (y === 1 ? ' año' : ' años'));
+      if (m) parts.push(m + (m === 1 ? ' mes' : ' meses'));
+      document.getElementById('antiguedad').textContent = parts.join(' y ') || 'Menos de un mes';
+    }
+  } catch (e) {}
+})();
 (function () {
   var toast = document.getElementById('toast'), t;
   function show(msg) { toast.textContent = msg; toast.hidden = false; clearTimeout(t); t = setTimeout(function () { toast.hidden = true; }, 1800); }
