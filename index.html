@@ -6,7 +6,7 @@
 <meta name="description" content="José Gil Martínez · Responsable del Dpto. I+D+TT en Gesa Mediación">
 <title>José Gil · Gesa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Figtree:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Figtree:wght@400;500;600&family=Share+Tech+Mono&display=swap">
 <style>
 /* Layout: platinum card-band hero (photo melts into the grey, vertical wordmark as on the printed card), then a single readable column of contact, work and office. */
 :root {
@@ -58,8 +58,19 @@ a { color: inherit; }
 .role .wrap { padding-block: 18px; display: grid; gap: 2px; }
 .role strong { font-family: var(--display); font-weight: 750; font-stretch: 110%; font-size: 1.05rem; letter-spacing: .01em; }
 .role span { color: #B7C4CB; font-size: .92rem; }
-.role .since { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid #2E3843; color: #B7C4CB; font-size: .92rem; font-variant-numeric: tabular-nums; }
-.role .since b { color: #EEF2F4; font-weight: 600; }
+.role .since { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid #2E3843; color: #B7C4CB; font-size: .92rem; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+/* Esfera rectangular tipo reloj LCD, en el gris platino de la tarjeta */
+.clock { display: inline-flex; align-items: flex-end; gap: 6px; padding: 7px 12px 6px; border-radius: 7px; background: #A4A7A7; color: #141A22;
+  border: 2px solid #3A444E; box-shadow: inset 0 2px 5px rgba(0,0,0,.28), 0 0 0 1px #0B0F14; font-family: "Share Tech Mono", "Courier New", ui-monospace, monospace; line-height: 1; }
+.role .clock span { color: inherit; font-size: inherit; }
+.role .clock .ghost { color: rgba(20,26,34,.10); }
+.clock .seg { display: inline-flex; align-items: flex-end; gap: 2px; }
+.role .clock .digits { display: inline-grid; font-size: 1.9rem; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+.clock .digits > * { grid-area: 1 / 1; text-align: right; }
+.clock .ghost { color: rgba(20,26,34,.09); }
+.role .clock small { font-size: .82rem; font-weight: 700; padding-bottom: 2px; text-transform: lowercase; }
+.role .clock .sep { font-size: 1.6rem; padding-bottom: 1px; color: #141A22; }
+@media (prefers-reduced-motion: no-preference) { .clock .sep { animation: tick 2s steps(1) infinite; } @keyframes tick { 50% { opacity: .25; } } }
 
 /* Actions */
 .actions { padding-block: 24px 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -133,7 +144,14 @@ footer .wm { display: block; width: 130px; aspect-ratio: 376 / 139; margin-botto
   <div class="wrap">
     <strong>Responsable del Dpto. I+D+TT</strong>
     <span>Investigación, Desarrollo y Transformación Tecnológica · Gesa Mediación</span>
-    <p class="since">En Gesa desde junio de 2012 · <b id="antiguedad" title="14 años y 5 meses">14/5</b></p>
+    <div class="since">
+      <span>En Gesa desde junio de 2012</span>
+      <div class="clock" id="antiguedad" role="img" aria-label="14 años y 5 meses en Gesa">
+        <span class="seg"><span class="digits"><span id="ant-y">14</span></span><small>a</small></span>
+        <span class="sep" aria-hidden="true">/</span>
+        <span class="seg"><span class="digits"><span id="ant-m">5</span></span><small>m</small></span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -227,9 +245,10 @@ footer .wm { display: block; width: 130px; aspect-ratio: 376 / 139; margin-botto
   try {
     var now = new Date(), months = (now.getFullYear() - 2012) * 12 + (now.getMonth() - 5);
     if (months >= 0) {
-      var y = Math.floor(months / 12), m = months % 12, el = document.getElementById('antiguedad');
-      el.textContent = y + '/' + m;
-      el.title = y + (y === 1 ? ' año' : ' años') + ' y ' + m + (m === 1 ? ' mes' : ' meses');
+      var y = Math.floor(months / 12), m = months % 12;
+      document.getElementById('ant-y').textContent = y;
+      document.getElementById('ant-m').textContent = m;
+      document.getElementById('antiguedad').setAttribute('aria-label', y + (y === 1 ? ' año' : ' años') + ' y ' + m + (m === 1 ? ' mes' : ' meses') + ' en Gesa');
     }
   } catch (e) {}
 })();
